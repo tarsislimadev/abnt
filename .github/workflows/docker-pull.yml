@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Docker pull
-        run: docker pull tmvdl/abnt -a
+        run: docker pull tmvdl/projects:abnt -a

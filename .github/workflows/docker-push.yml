@@ -23,4 +23,4 @@ jobs:
         run: docker-compose build docker-push
 
       - name: Docker push
-        run: docker push tmvdl/abnt -a
+        run: docker push tmvdl/projects:abnt -a
