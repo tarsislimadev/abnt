@@ -1,0 +1,11 @@
+{
+  "name": "abnt",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
