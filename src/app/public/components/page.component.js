@@ -1,19 +1,41 @@
 import { HTML } from '@brtmvdl/frontend'
+import { ContainerComponent } from './container.component.js'
 
 export class PageComponent extends HTML {
-
-  state = {
-    socket: this.createSocket(),
-  }
+  socket = this.createSocket()
 
   createSocket() {
     const socket = io()
-    socket.on('connect', () => this.onSockeConnect())
-    socket.on('disconnect', () => this.onSockeDisconnect())
+    socket.on('connect', () => this.onSocketConnect())
+    socket.on('disconnect', () => this.onSocketDisconnect())
     return socket
   }
 
-  onSockeConnect() { }
+  onSocketConnect() {
+    console.log('connect')
+  }
 
-  onSockeDisconnect() { }
+  onSocketDisconnect() {
+    console.log('disconnect')
+  }
+
+  onCreate() {
+    super.onCreate()
+    this.append(this.getHeaderComponent())
+    this.append(this.getBodyComponent())
+    this.append(this.getFooterComponent())
+  }
+
+  getHeaderComponent() {
+    return new ContainerComponent()
+  }
+
+  getBodyComponent() {
+    return new ContainerComponent()
+  }
+
+  getFooterComponent() {
+    return new ContainerComponent()
+  }
+
 }
