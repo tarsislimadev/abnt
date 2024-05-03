@@ -17,21 +17,35 @@ export class Page extends HTML {
 
   getFlex() {
     const flex = new nFlex()
-    flex.append(this.getMenu().setContainerStyle('width', '20%'))
-    flex.append(this.getForm().setContainerStyle('width', '40%'))
-    flex.append(this.getPDF().setContainerStyle('width', '40%'))
+    flex.append(this.getMenu())
+    flex.append(this.getForm())
+    flex.append(this.getPDF())
     return flex
   }
 
   getMenu() {
+    this.children.menu.setContainerStyle('width', '20%')
+    this.children.menu.on('menu', ({ value: { id } }) => this.onMenuChange(id))
     return this.children.menu
   }
 
+  onMenuChange(id) {
+    console.log('on menu change', id)
+  }
+
   getForm() {
+    this.children.form.setContainerStyle('width', '40%')
+    this.children.form.on('save', () => this.saveDocument())
     return this.children.form
   }
 
+  saveDocument() {
+    console.log('save document')
+  }
+
   getPDF() {
+    this.children.pdf.setContainerStyle('width', '40%')
     return this.children.pdf
   }
+
 }
