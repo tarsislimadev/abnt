@@ -30,7 +30,7 @@ export class Page extends HTML {
   }
 
   onMenuChange(id) {
-    console.log('on menu change', id)
+    this.children.form.dispatchEvent('menu', { id })
   }
 
   getForm() {
