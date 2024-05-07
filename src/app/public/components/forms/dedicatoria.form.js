@@ -1,6 +1,6 @@
-import { HTML } from '@brtmvdl/frontend'
+import { Form } from './form.js'
 
-export class DedicatoriaForm extends HTML {
+export class DedicatoriaForm extends Form {
   onCreate() {
     super.onCreate()
     this.setText('dedicatoria')

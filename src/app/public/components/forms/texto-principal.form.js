@@ -1,6 +1,6 @@
-import { HTML } from '@brtmvdl/frontend'
+import { Form } from './form.js'
 
-export class TextoPrincipalForm extends HTML {
+export class TextoPrincipalForm extends Form {
   onCreate() {
     super.onCreate()
     this.setText('texto-principal')

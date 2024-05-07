@@ -1,6 +1,6 @@
-import { HTML } from '@brtmvdl/frontend'
+import { Form } from './form.js'
 
-export class GlossarioForm extends HTML {
+export class GlossarioForm extends Form {
   onCreate() {
     super.onCreate()
     this.setText('glossario')
