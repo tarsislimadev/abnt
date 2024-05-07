@@ -35,12 +35,12 @@ export class Page extends HTML {
 
   getForm() {
     this.children.form.setContainerStyle('width', '40%')
-    this.children.form.on('save', () => this.saveDocument())
+    this.children.form.on('save', ({ value }) => this.saveDocument(value))
     return this.children.form
   }
 
-  saveDocument() {
-    console.log('save document')
+  saveDocument(data = {}) {
+    console.log('save document', { data })
   }
 
   getPDF() {
