@@ -11,7 +11,6 @@ export class FormComponent extends HTML {
     super.onCreate()
     this.setEvents()
     this.setStyles()
-    this.append(this.getSaveButton())
     this.append(this.getForm())
   }
 
@@ -21,7 +20,9 @@ export class FormComponent extends HTML {
 
   onMenu(id) {
     this.children.form.clear()
-    this.children.form.append(this.getFormById(id))
+    const form = this.getFormById(id)
+    form.on('save', ({ value }) => this.dispatch('save', value))
+    this.children.form.append(form)
   }
 
   getFormById(id) {
@@ -42,13 +43,6 @@ export class FormComponent extends HTML {
 
   setStyles() {
     this.setStyle('padding', 'calc(1rem / 4)')
-  }
-
-  getSaveButton() {
-    const button = new ButtonComponent()
-    button.setText('Save')
-    button.on('click', () => this.dispatchEvent('save'))
-    return button
   }
 
   getForm() {
