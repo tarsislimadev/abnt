@@ -26,7 +26,15 @@ export class FormComponent extends HTML {
 
   getFormById(id) {
     switch (id) {
+      case 'agradecimentos': return new forms.AgradecimentosForm()
+      case 'anexos': return new forms.AnexosForm()
+      case 'apendices': return new forms.ApendicesForm()
+      case 'autores': return new forms.AutoresForm()
+      case 'dedicatoria': return new forms.DedicatoriaForm()
       case 'folha-rosto': return new forms.FolhaRostoForm()
+      case 'glossario': return new forms.GlossarioForm()
+      case 'resumo': return new forms.ResumoForm()
+      case 'texto-principal': return new forms.TextoPrincipalForm()
     }
 
     return new HTML()
@@ -41,5 +49,9 @@ export class FormComponent extends HTML {
     button.setText('Save')
     button.on('click', () => this.dispatchEvent('save'))
     return button
+  }
+
+  getForm() {
+    return this.children.form
   }
 }

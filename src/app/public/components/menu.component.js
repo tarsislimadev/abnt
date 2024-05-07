@@ -8,6 +8,13 @@ export class MenuComponent extends HTML {
     this.append(this.createMenuList([
       ['folha-rosto', 'Folha de rosto'],
       ['autores', 'Autores'],
+      ['dedicatoria', 'Dedicatória'],
+      ['agradecimentos', 'Agradecimentos'],
+      ['resumo', 'Resumo'],
+      ['texto-principal', 'Texto Principal'],
+      ['apendices', 'Apêndices'],
+      ['anexos', 'Anexos'],
+      ['glossario', 'Glossário'],
     ]))
   }
 
@@ -27,5 +34,4 @@ export class MenuComponent extends HTML {
     button.on('click', () => this.dispatchEvent('menu', { id }))
     return button
   }
-
 }
