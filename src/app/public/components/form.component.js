@@ -21,7 +21,7 @@ export class FormComponent extends HTML {
   onMenu(id) {
     this.children.form.clear()
     const form = this.getFormById(id)
-    form.on('save', ({ value }) => this.dispatch('save', value))
+    form.on('save', ({ value }) => this.dispatchEvent('save', value))
     this.children.form.append(form)
   }
 

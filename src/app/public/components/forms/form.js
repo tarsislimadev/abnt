@@ -1,11 +1,13 @@
 import { HTML, nButton } from '@brtmvdl/frontend'
+import { H1Component } from '../h1.component.js'
 
 export class Form extends HTML {
   name = 'form'
+  data = {}
 
   onCreate() {
     super.onCreate()
-    this.append(this.createText(this.name))
+    this.append(this.createTitle(this.name))
     this.append(this.getButtons())
   }
 
@@ -23,12 +25,13 @@ export class Form extends HTML {
   }
 
   getSaveButton() {
-    return this.createButton('Save', () => { })
+    return this.createButton('save', () => this.dispatchEvent('save', { [this.name]: this.data }))
   }
 
-  createText(text) {
-    const html = new HTML()
-    html.setText(text)
-    return html
+  createTitle(text) {
+    const h1 = new H1Component()
+    h1.setText(text)
+    return h1
   }
+
 }
