@@ -3,12 +3,13 @@ import { TexTComponent } from '../text.component.js'
 
 export class Form extends HTML {
   name = 'form'
-  data = {}
+  children = {}
 
   onCreate() {
     super.onCreate()
     this.append(new TexTComponent(this.name))
     this.append(this.getButtons())
+    this.append(this.getBody())
   }
 
   getButtons() {
@@ -25,7 +26,18 @@ export class Form extends HTML {
   }
 
   getSaveButton() {
-    return this.createButton('save', () => this.dispatchEvent('save', { [this.name]: this.data }))
+    return this.createButton('save', () => this.dispatchEvent('save', { [this.name]: this.getData() }))
+  }
+
+  getData() {
+    return Object.keys(this.children).reduce((data, key) => {
+      data[key] = this.children[key].children.input.getValue()
+      return data
+    }, {})
+  }
+
+  getBody() {
+    return new HTML()
   }
 
 }
