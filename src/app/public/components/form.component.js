@@ -1,5 +1,5 @@
 import { HTML } from '@brtmvdl/frontend'
-import { ButtonComponent } from './button.component.js'
+
 import * as forms from './forms/index.js'
 
 export class FormComponent extends HTML {

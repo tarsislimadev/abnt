@@ -3,6 +3,7 @@ import { HeaderComponent } from './components/header.component.js'
 import { MenuComponent } from './components/menu.component.js'
 import { FormComponent } from './components/form.component.js'
 import { PDFComponent } from './components/pdf.component.js'
+import * as API from './utils/api.js'
 
 export class Page extends HTML {
   children = {
@@ -47,13 +48,14 @@ export class Page extends HTML {
   }
 
   saveDocument(data = {}) {
-    console.log('save document', { data })
-    this.children.pdf.dispatchEvent('update')
+    API.saveDocument(data)
+      .then((res) => console.log({ res }))
+      .then(() => this.children.pdf.dispatchEvent('update'))
+      .catch((err) => console.error(err))
   }
 
   getPDF() {
     this.children.pdf.setContainerStyle('width', '40%')
     return this.children.pdf
   }
-
 }
