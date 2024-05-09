@@ -1,5 +1,5 @@
 import { HTML, nButton } from '@brtmvdl/frontend'
-import { H1Component } from '../h1.component.js'
+import { TexTComponent } from '../text.component.js'
 
 export class Form extends HTML {
   name = 'form'
@@ -7,6 +7,7 @@ export class Form extends HTML {
 
   onCreate() {
     super.onCreate()
+    this.append(new TexTComponent(this.name))
     this.append(this.getButtons())
   }
 
@@ -26,4 +27,5 @@ export class Form extends HTML {
   getSaveButton() {
     return this.createButton('save', () => this.dispatchEvent('save', { [this.name]: this.data }))
   }
+
 }
