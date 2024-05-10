@@ -26,7 +26,7 @@ export class Form extends HTML {
   }
 
   getSaveButton() {
-    return this.createButton('save', () => this.dispatchEvent('save', { [this.name]: this.getData() }))
+    return this.createButton('save', () => this.dispatchEvent('save', this.getData()))
   }
 
   getData() {
