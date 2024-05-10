@@ -1,15 +1,7 @@
-// 
+const { ErrorResponse } = require('./error.response.js')
+const { Response } = require('./response.js')
 
-class Response {
-  status = 'ok'
-  message = null
-  data = {}
-
-  constructor(data = {}, status = 'ok', message = null) {
-    this.status = status
-    this.message = message
-    this.data = data
-  }
+module.exports = {
+  ErrorResponse,
+  Response
 }
-
-module.exports = { Response }
