@@ -49,8 +49,8 @@ export class Page extends HTML {
 
   saveDocument(data = {}) {
     API.saveDocument(data)
-      .then((res) => console.log({ res }))
-      .then(() => this.children.pdf.dispatchEvent('update'))
+      .then((res) => res.getData())
+      .then(({ id, data }) => this.children.pdf.dispatchEvent('update', { id, data }))
       .catch((err) => console.error(err))
   }
 
