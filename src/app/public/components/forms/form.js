@@ -37,7 +37,9 @@ export class Form extends HTML {
   }
 
   getBody() {
-    return new HTML()
+    const body = new HTML()
+    Object.keys(this.children).map((component) => body.append(this.children[component]))
+    return body
   }
 
 }
