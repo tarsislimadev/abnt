@@ -22,6 +22,7 @@ export class TextInputGroupComponent extends HTML {
   }
 
   getHeader() {
+    this.children.header.setText(this.name)
     return this.children.header
   }
 
@@ -36,4 +37,5 @@ export class TextInputGroupComponent extends HTML {
   getError() {
     return this.children.error
   }
+
 }
