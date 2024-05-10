@@ -13,6 +13,11 @@ export class Page extends HTML {
     pdf: new PDFComponent(),
   }
 
+  state = {
+    id: 0,
+    data: {},
+  }
+
   onCreate() {
     super.onCreate()
     this.append(this.getHeader())
@@ -48,9 +53,10 @@ export class Page extends HTML {
   }
 
   saveDocument(data = {}) {
-    API.saveDocument(data)
+    API.saveDocument(data, this.state.id)
       .then((res) => res.getData())
-      .then(({ id, data }) => this.children.pdf.dispatchEvent('update', { id, data }))
+      .then(({ id, data }) => this.state = { ...this.state, id, data })
+      .then(() => this.children.pdf.dispatchEvent('update', this.state))
       .catch((err) => console.error(err))
   }
 
