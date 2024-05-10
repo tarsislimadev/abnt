@@ -1,16 +1,23 @@
-import { HTML, nInput } from '@brtmvdl/frontend'
+import { HTML } from '@brtmvdl/frontend'
+import { InputComponent } from './input.component.js'
 
 export class TextInputGroupComponent extends HTML {
   children = {
     header: new HTML(),
-    input: new nInput(),
+    input: new InputComponent(),
     footer: new HTML(),
     error: new HTML(),
   }
 
-  constructor(name = 'input-text') {
+  state = {
+    name: '',
+    title: '',
+  }
+
+  constructor(name, title = null) {
     super()
-    this.name = name
+    this.state.name = name
+    this.state.title = title
   }
 
   onCreate() {
@@ -22,7 +29,7 @@ export class TextInputGroupComponent extends HTML {
   }
 
   getHeader() {
-    this.children.header.setText(this.name)
+    this.children.header.setText(this.state.title || this.state.name)
     return this.children.header
   }
 
@@ -37,5 +44,4 @@ export class TextInputGroupComponent extends HTML {
   getError() {
     return this.children.error
   }
-
 }

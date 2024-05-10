@@ -1,6 +1,6 @@
 import { HTML, nButton } from '@brtmvdl/frontend'
 
-export class TexTComponent extends HTML {
+export class TextComponent extends HTML {
   text = ''
 
   constructor(text = '') {

@@ -6,6 +6,6 @@ export class AutoresForm extends Form {
   name = 'autores'
 
   children = {
-    nome_autor: new TextInputGroupComponent('nome_autor'),
+    nome_autor: new TextInputGroupComponent('nome_autor', 'Nome do Autor'),
   }
 }

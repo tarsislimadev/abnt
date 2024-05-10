@@ -1,13 +1,15 @@
 import { HTML, nButton } from '@brtmvdl/frontend'
-import { TexTComponent } from '../text.component.js'
+import { TextComponent } from '../text.component.js'
+import { ButtonComponent } from '../button.component.js'
 
 export class Form extends HTML {
   name = 'form'
+  title = null
   children = {}
 
   onCreate() {
     super.onCreate()
-    this.append(new TexTComponent(this.name))
+    this.append(new TextComponent(this.title || this.name))
     this.append(this.getButtons())
     this.append(this.getBody())
   }
@@ -19,14 +21,14 @@ export class Form extends HTML {
   }
 
   createButton(text, onclick = (() => { })) {
-    const button = new nButton()
+    const button = new ButtonComponent()
     button.setText(text)
     button.on('click', () => onclick())
     return button
   }
 
   getSaveButton() {
-    return this.createButton('save', () => this.dispatchEvent('save', this.getData()))
+    return this.createButton('Save', () => this.dispatchEvent('save', this.getData()))
   }
 
   getData() {
