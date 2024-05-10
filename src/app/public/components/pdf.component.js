@@ -9,7 +9,7 @@ export class PDFComponent extends HTML {
   }
 
   setEvents() {
-    this.on('update', ({ value: { id, data } }) => console.log('update', { id, data }))
+    this.on('update', ({ value }) => console.log('update', value))
   }
 
   setStyles() {
