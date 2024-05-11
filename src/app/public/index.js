@@ -3,6 +3,8 @@ import { HeaderComponent } from './components/header.component.js'
 import { MenuComponent } from './components/menu.component.js'
 import { FormComponent } from './components/form.component.js'
 import { PDFComponent } from './components/pdf.component.js'
+import { StateModel } from './models/state.model.js'
+
 import * as API from './utils/api.js'
 
 export class Page extends HTML {
@@ -13,10 +15,10 @@ export class Page extends HTML {
     pdf: new PDFComponent(),
   }
 
-  state = {
+  state = new StateModel({
     id: 0,
     data: {},
-  }
+  })
 
   onCreate() {
     super.onCreate()
@@ -53,10 +55,12 @@ export class Page extends HTML {
   }
 
   saveDocument(data = {}) {
-    API.saveDocument(data, this.state.id)
+    this.state.update('data', data)
+
+    API.saveDocument(this.state.get('data'), this.state.get('id'))
       .then((res) => res.getData())
-      .then(({ id, data }) => this.state = { ...this.state, id, data })
-      .then(() => this.children.pdf.dispatchEvent('update', this.state))
+      .then(({ id }) => this.state.update('id', id))
+      .then(() => this.children.pdf.dispatchEvent('update', this.state.toJSON()))
       .catch((err) => console.error(err))
   }
 
