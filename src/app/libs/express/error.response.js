@@ -5,6 +5,8 @@ class ErrorResponse extends Error {
   constructor(error = new Error('Undefined error')) {
     super(error.message)
     this.error = error
+
+    console.error(error)
   }
 
   toJSON() {
