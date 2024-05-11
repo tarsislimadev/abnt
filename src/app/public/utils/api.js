@@ -60,4 +60,6 @@ const request = (method = 'POST', url = [], data = {}) => {
   })
 }
 
-export const saveDocument = (data = {}, id = null) => request('POST', ['documents', 'save'], { id, data })
+export const saveDocument = (data = {}, id = null) => request('POST', ['save'], { id, data })
+
+export const getDocument = (id) => request('GET', ['documents', id])
