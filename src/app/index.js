@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.static('public'))
 
-app.post('/documents/save', ({ body }, res) => {
+app.post('/save', ({ body }, res) => {
   let id = body.id
   const data = body.data
   try {
@@ -27,6 +27,14 @@ app.post('/documents/save', ({ body }, res) => {
     if (!document) document = documents.new()
     document.writeMany(data)
     res.json(new Response({ id: document.id, data }))
+  } catch (e) {
+    res.json(new ErrorResponse(e))
+  }
+})
+
+app.get('/documents/:id', ({ body }, res) => {
+  try {
+    res.json(new Response(body))
   } catch (e) {
     res.json(new ErrorResponse(e))
   }
