@@ -1,14 +1,12 @@
 const express = require('express')
 const { createServer } = require('http')
 const PDFDocument = require('pdfkit')
+const { Response, ErrorResponse, } = require('./libs/express/index.js')
 
 const app = express()
 const server = createServer(app)
 
-const { Response, ErrorResponse, } = require('./libs/express/index.js')
-
 const { Database } = require('@brtmvdl/database')
-
 const db = new Database({ type: 'fs', config: '/data' })
 
 const documents = db.in('documents')
