@@ -1,10 +1,10 @@
 const express = require('express')
 const { createServer } = require('http')
-const { Server } = require('socket.io')
+// const { Server } = require('socket.io')
 
 const app = express()
 const server = createServer(app)
-const io = new Server(server)
+// const io = new Server(server)
 
 const { Response, ErrorResponse, DocumentResponse, } = require('./libs/express/index.js')
 
@@ -20,8 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 app.post('/save', ({ body }, res) => {
-  let id = body.id
-  const data = body.data
+  let { id, data } = body
   try {
     let document = documents.findById(id)
     if (!document) document = documents.new()
@@ -34,8 +33,7 @@ app.post('/save', ({ body }, res) => {
 
 app.get('/documents/:id', ({ params }, res) => {
   try {
-    const json = documents.findById(params.id)?.toJSON()
-    const document = new DocumentResponse(json)
+    const document = new DocumentResponse(documents.findById(params.id)?.toJSON())
     const filename = `/data/documents/${params.id}/file.pdf`
     document.buildPDF(filename)
     res.download(filename)
@@ -44,6 +42,6 @@ app.get('/documents/:id', ({ params }, res) => {
   }
 })
 
-io.on('connection', (socket) => console.log('a user connected'))
+// io.on('connection', (socket) => console.log('a user connected'))
 
 server.listen(80, () => console.log('Server listening on 80'))
