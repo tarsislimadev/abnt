@@ -28,9 +28,13 @@ app.post('/save', ({ body }, res) => {
   }
 })
 
-const createDocument = () => {
+const createDocument = (params = {}) => {
   const pdf = new PDFDocument({ font: 'Times-Roman', fontSize: 12 })
-  pdf.text(`Some text with an embedded font! - ${Date.now()}`, 100, 100)
+  pdf.moveDown()
+  pdf.text(`Title (1): ${params.titulo}`)
+  pdf.moveDown()
+  pdf.text(`Title (2): ${params.titulo}`)
+  pdf.moveDown()
   pdf.end()
   return pdf
 }
