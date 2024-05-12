@@ -1,15 +1,12 @@
 import { HTML, nFlex } from '@brtmvdl/frontend'
-import { HeaderComponent } from './components/header.component.js'
 import { MenuComponent } from './components/menu.component.js'
 import { FormComponent } from './components/form.component.js'
 import { PDFComponent } from './components/pdf.component.js'
 import { StateModel } from './models/state.model.js'
-
 import * as API from './utils/api.js'
 
 export class Page extends HTML {
   children = {
-    header: new HeaderComponent(),
     menu: new MenuComponent(),
     form: new FormComponent(),
     pdf: new PDFComponent(),
@@ -22,13 +19,8 @@ export class Page extends HTML {
 
   onCreate() {
     super.onCreate()
-    this.append(this.getHeader())
     this.append(this.getFlex())
     this.saveDocument()
-  }
-
-  getHeader() {
-    return this.children.header
   }
 
   getFlex() {

@@ -9,6 +9,13 @@ class nIframe extends HTML {
   getName() {
     return 'iframe'
   }
+
+  onCreate() {
+    super.onCreate()
+    this.setContainerStyle('height', '100%')
+    this.setStyle('height', '100%')
+    this.setStyle('width', '100%')
+  }
 }
 
 export class PDFComponent extends HTML {
@@ -32,10 +39,13 @@ export class PDFComponent extends HTML {
   }
 
   setStyles() {
+    this.setStyle('height', (window.innerHeight - 32) + 'px')
     this.setStyle('padding', 'calc(1rem / 4)')
+    this.setStyle('width', '100%')
   }
 
   getPDF() {
+    this.children.pdf.setContainerStyle('width', (4 * window.innerWidth / 10) + 'px')
     return this.children.pdf
   }
 }
