@@ -19,7 +19,7 @@ export class PDFComponent extends HTML {
 
   onUpdate({ value } = {}) {
     this.children.pdf.clear()
-    this.children.pdf.append(new TextComponent(JSON.stringify(value, null, 4)))
+    this.children.pdf.append(new TextComponent(`http://localhost:8080/documents/${value.id}`))
   }
 
   setStyles() {
