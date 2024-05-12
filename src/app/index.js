@@ -30,11 +30,9 @@ app.post('/save', ({ body }, res) => {
 
 const createDocument = (params = {}) => {
   const pdf = new PDFDocument({ font: 'Times-Roman', fontSize: 12 })
-  pdf.moveDown()
   pdf.text(`Title (1): ${params.titulo}`)
-  pdf.moveDown()
+  pdf.addPage()
   pdf.text(`Title (2): ${params.titulo}`)
-  pdf.moveDown()
   pdf.end()
   return pdf
 }
