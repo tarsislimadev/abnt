@@ -5,7 +5,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "@brtmvdl/database": "^1.0.2",
+    "@brtmvdl/database": "^1.0.5",
     "blob-stream": "^0.1.3",
     "express": "^4.19.2",
     "pdfkit": "^0.15.0",
