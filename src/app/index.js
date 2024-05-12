@@ -6,7 +6,7 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server)
 
-const { Response, ErrorResponse } = require('./libs/express/index.js')
+const { Response, ErrorResponse, DocumentResponse, } = require('./libs/express/index.js')
 
 const { Database } = require('@brtmvdl/database')
 
@@ -32,9 +32,13 @@ app.post('/save', ({ body }, res) => {
   }
 })
 
-app.get('/documents/:id', ({ body }, res) => {
+app.get('/documents/:id', ({ params }, res) => {
   try {
-    res.json(new Response(body))
+    const json = documents.findById(params.id)?.toJSON()
+    const document = new DocumentResponse(json)
+    const filename = `/data/documents/${params.id}/file.pdf`
+    document.buildPDF(filename)
+    res.download(filename)
   } catch (e) {
     res.json(new ErrorResponse(e))
   }
