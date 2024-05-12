@@ -24,6 +24,7 @@ export class Page extends HTML {
     super.onCreate()
     this.append(this.getHeader())
     this.append(this.getFlex())
+    this.saveDocument()
   }
 
   getHeader() {
@@ -68,4 +69,5 @@ export class Page extends HTML {
     this.children.pdf.setContainerStyle('width', '40%')
     return this.children.pdf
   }
+
 }
