@@ -1,9 +1,19 @@
 import { HTML } from '@brtmvdl/frontend'
-import { TextComponent } from './text.component.js'
+
+class nIframe extends HTML {
+
+  getTagName() {
+    return 'iframe'
+  }
+
+  getName() {
+    return 'iframe'
+  }
+}
 
 export class PDFComponent extends HTML {
   children = {
-    pdf: new HTML(),
+    pdf: new nIframe(),
   }
 
   onCreate() {
@@ -18,8 +28,7 @@ export class PDFComponent extends HTML {
   }
 
   onUpdate({ value } = {}) {
-    this.children.pdf.clear()
-    this.children.pdf.append(new TextComponent(`http://localhost:8080/documents/${value.id}`))
+    this.children.pdf.setAttr('src', `http://localhost:8080/documents/${value.id}`)
   }
 
   setStyles() {
@@ -29,5 +38,4 @@ export class PDFComponent extends HTML {
   getPDF() {
     return this.children.pdf
   }
-
 }
