@@ -1,12 +1,11 @@
 const express = require('express')
 const { createServer } = require('http')
-// const { Server } = require('socket.io')
+const PDFDocument = require('pdfkit')
 
 const app = express()
 const server = createServer(app)
-// const io = new Server(server)
 
-const { Response, ErrorResponse, DocumentResponse, } = require('./libs/express/index.js')
+const { Response, ErrorResponse, } = require('./libs/express/index.js')
 
 const { Database } = require('@brtmvdl/database')
 
@@ -31,17 +30,20 @@ app.post('/save', ({ body }, res) => {
   }
 })
 
+const createDocument = () => {
+  const pdf = new PDFDocument({ font: 'Times-Roman', fontSize: 12 })
+  pdf.text(`Some text with an embedded font! - ${Date.now()}`, 100, 100)
+  pdf.end()
+  return pdf
+}
+
 app.get('/documents/:id', ({ params }, res) => {
   try {
-    const document = new DocumentResponse(documents.findById(params.id)?.toJSON())
-    const filename = `/data/documents/${params.id}/file.pdf`
-    document.buildPDF(filename)
-    res.download(filename)
+    const doc = documents.findById(params.id)?.toJSON()
+    createDocument(doc).pipe(res)
   } catch (e) {
     res.json(new ErrorResponse(e))
   }
 })
-
-// io.on('connection', (socket) => console.log('a user connected'))
 
 server.listen(80, () => console.log('Server listening on 80'))
