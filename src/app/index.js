@@ -23,7 +23,7 @@ app.post('/save', ({ body }, res) => {
   let id = body.id
   const data = body.data
   try {
-    let document = documents.find(id)
+    let document = documents.findById(id)
     if (!document) document = documents.new()
     document.writeMany(data)
     res.json(new Response({ id: document.id, data }))
