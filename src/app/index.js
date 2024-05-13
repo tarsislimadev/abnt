@@ -1,15 +1,12 @@
 const express = require('express')
 const { createServer } = require('http')
 const PDFDocument = require('pdfkit')
+const { Database } = require('@brtmvdl/database')
 const { Response, ErrorResponse, } = require('./libs/express/index.js')
-
+const db = new Database({ type: 'fs', config: '/data' })
+const documents = db.in('documents')
 const app = express()
 const server = createServer(app)
-
-const { Database } = require('@brtmvdl/database')
-const db = new Database({ type: 'fs', config: '/data' })
-
-const documents = db.in('documents')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -28,6 +25,8 @@ app.post('/save', ({ body }, res) => {
   }
 })
 
+const doc = (id) => documents.findById(id)?.toJSON()
+
 const createDocument = (params = {}) => {
   const pdf = new PDFDocument({ font: 'Times-Roman', fontSize: 12 })
   pdf.text(`Titulo: ${params.titulo}`, { align: 'center' })
@@ -39,8 +38,15 @@ const createDocument = (params = {}) => {
 
 app.get('/documents/:id', ({ params }, res) => {
   try {
-    const doc = documents.findById(params.id)?.toJSON()
-    createDocument(doc).pipe(res)
+    createDocument(doc(params.id)).pipe(res)
+  } catch (e) {
+    res.json(new ErrorResponse(e))
+  }
+})
+
+app.get('/data/:id', ({ params }, res) => {
+  try {
+    res.json(doc(params.id))
   } catch (e) {
     res.json(new ErrorResponse(e))
   }
