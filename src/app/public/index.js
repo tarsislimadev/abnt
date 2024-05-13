@@ -1,5 +1,4 @@
 import { HTML, nFlex } from '@brtmvdl/frontend'
-import { MenuComponent } from './components/menu.component.js'
 import { FormComponent } from './components/form.component.js'
 import { PDFComponent } from './components/pdf.component.js'
 import { StateModel } from './models/state.model.js'
@@ -7,7 +6,6 @@ import * as API from './utils/api.js'
 
 export class Page extends HTML {
   children = {
-    menu: new MenuComponent(),
     form: new FormComponent(),
     pdf: new PDFComponent(),
   }
@@ -30,20 +28,9 @@ export class Page extends HTML {
 
   getFlex() {
     const flex = new nFlex()
-    flex.append(this.getMenu())
     flex.append(this.getForm())
     flex.append(this.getPDF())
     return flex
-  }
-
-  getMenu() {
-    this.children.menu.setContainerStyle('width', '20%')
-    this.children.menu.on('menu', ({ value: { id } }) => this.onMenuChange(id))
-    return this.children.menu
-  }
-
-  onMenuChange(id) {
-    this.children.form.dispatchEvent('menu', { id })
   }
 
   getForm() {
@@ -58,6 +45,7 @@ export class Page extends HTML {
     API.saveDocument(this.state.get('data'), this.state.get('id'))
       .then((res) => res.getData())
       .then(({ id }) => this.state.update('id', id))
+      .then(() => this.children.form.dispatchEvent('update', this.state.toJSON()))
       .then(() => this.children.pdf.dispatchEvent('update', this.state.toJSON()))
       .catch((err) => console.error(err))
   }
