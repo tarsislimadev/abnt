@@ -13,9 +13,14 @@ export class Page extends HTML {
   }
 
   state = new StateModel({
-    id: 0,
+    id: this.getId(),
     data: {},
   })
+
+  getId() {
+    const search = new URLSearchParams(window.location.search)
+    return search.get('id')
+  }
 
   onCreate() {
     super.onCreate()
@@ -61,5 +66,4 @@ export class Page extends HTML {
     this.children.pdf.setContainerStyle('width', '40%')
     return this.children.pdf
   }
-
 }
