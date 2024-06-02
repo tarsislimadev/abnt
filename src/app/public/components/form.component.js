@@ -1,5 +1,6 @@
 import { HTML } from '@brtmvdl/frontend'
-import { TextInputGroupComponent } from './text.input.group.component.js'
+import { ParagraphGroupComponent } from './paragraph.group.component.js'
+import { ParagraphGroupModel } from '../models/paragraph.group.model.js'
 import { ButtonComponent } from './button.component.js'
 import * as API from '../utils/api.js'
 
@@ -10,25 +11,9 @@ export class FormComponent extends HTML {
 
   children = {
     form: new HTML(),
-    save: new ButtonComponent(),
-    folhas_rosto: {
-      titulo: new TextInputGroupComponent('titulo', 'Título'),
-      subtitulo: new TextInputGroupComponent('subtitulo', 'Subtítulo'),
-      universidade: new TextInputGroupComponent('universidade', 'Universidade'),
-      instituto: new TextInputGroupComponent('instituto', 'Instituto'),
-      departamento: new TextInputGroupComponent('departamento', 'Departamento'),
-      curso: new TextInputGroupComponent('curso', 'Curso'),
-      local: new TextInputGroupComponent('local', 'Local'),
-      data_defesa: new TextInputGroupComponent('data_defesa', 'Data de Defesa'),
-      volume: new TextInputGroupComponent('volume', 'Volume'),
-      orientador: new TextInputGroupComponent('orientador', 'Orientador'),
-      tipo_trabalho: new TextInputGroupComponent('tipo_trabalho', 'Tipo de Trabalho'),
-      pre_ambulo: new TextInputGroupComponent('pre_ambulo', 'Prêambulo'),
-    },
-    autores: {
-      nome_autor: new TextInputGroupComponent('nome_autor', 'Nome do Autor'),
-      email_autor: new TextInputGroupComponent('email_autor', 'E-mail do Autor'),
-    },
+    paragraphs: [
+      new ParagraphGroupComponent(this),
+    ],
   }
 
   constructor(id) {
@@ -41,14 +26,53 @@ export class FormComponent extends HTML {
     this.setEvents()
     this.setStyles()
     this.append(this.getForm())
+    this.updateForm()
   }
 
   setEvents() {
     this.on('update', (ev) => this.onUpdate(ev))
+    this.on('add', ({ value: ix }) => this.onAdd(ix))
+    this.on('remove', ({ value: ix }) => this.onRemove(ix))
+    this.on('moveup', ({ value: ix }) => this.onMoveUp(ix))
+    this.on('movedown', ({ value: ix }) => this.onMoveDown(ix))
   }
 
   onUpdate({ value } = {}) {
     console.log('on update', { value })
+  }
+
+  onAdd(index) {
+    this.children.paragraphs.push(new ParagraphGroupComponent(this))
+    this.updateForm()
+  }
+
+  onRemove(index) {
+    this.children.paragraphs = Array.from(this.children.paragraphs).filter((_, ix) => ix != index)
+    this.updateForm()
+  }
+
+  onMoveUp(index) {
+    if (index > 0) {
+      const p1 = this.children.paragraphs[index - 1]
+      const p2 = this.children.paragraphs[index]
+      this.children.paragraphs[index - 1] = p2
+      this.children.paragraphs[index] = p1
+    } else {
+      console.log('it can not move up')
+    }
+    this.updateForm()
+  }
+
+  onMoveDown(index) {
+    if (index < this.children.paragraphs.length - 1) {
+      const p1 = this.children.paragraphs[index + 1]
+      const p2 = this.children.paragraphs[index]
+      this.children.paragraphs[index + 1] = p2
+      this.children.paragraphs[index] = p1
+    } else {
+      console.log('it can not move down')
+    }
+    this.updateForm()
   }
 
   setStyles() {
@@ -56,52 +80,38 @@ export class FormComponent extends HTML {
   }
 
   getForm() {
-    this.children.form.append(this.children.folhas_rosto.titulo)
-    this.children.form.append(this.children.folhas_rosto.subtitulo)
-    this.children.form.append(this.children.folhas_rosto.universidade)
-    this.children.form.append(this.children.folhas_rosto.instituto)
-    this.children.form.append(this.children.folhas_rosto.departamento)
-    this.children.form.append(this.children.folhas_rosto.curso)
-    this.children.form.append(this.children.folhas_rosto.local)
-    this.children.form.append(this.children.folhas_rosto.data_defesa)
-    this.children.form.append(this.children.folhas_rosto.volume)
-    this.children.form.append(this.children.folhas_rosto.orientador)
-    this.children.form.append(this.children.folhas_rosto.tipo_trabalho)
-    this.children.form.append(this.children.folhas_rosto.pre_ambulo)
-    this.children.form.append(this.children.autores.nome_autor)
-    this.children.form.append(this.children.autores.email_autor)
-    this.children.form.append(this.getSaveButton())
-    return this.children.form
+    const html = new HTML()
+    html.append(this.children.form)
+    html.append(this.getSaveButton())
+    return html
   }
 
   getSaveButton() {
-    this.children.save.setText('save')
-    this.children.save.on('click', () => this.onSaveButtonClick())
-    return this.children.save
+    const button = new ButtonComponent()
+    button.setText('save')
+    button.on('click', () => this.onSaveButtonClick())
+    return button
   }
 
   onSaveButtonClick() {
-    API.saveDocument(this.getData(), this.state.id)
-      .then(() => this.dispatchEvent('save', this.getData()))
+    this.saveDocument()
+  }
+
+  saveDocument() {
+    API.saveDocument(this.getParagraphsData(), this.state.id)
+      .then(() => this.dispatchEvent('saved'))
       .catch((err) => console.error(err))
   }
 
-  getData() {
-    return {
-      titulo: this.children.folhas_rosto.titulo.children.input.getValue(),
-      subtitulo: this.children.folhas_rosto.subtitulo.children.input.getValue(),
-      universidade: this.children.folhas_rosto.universidade.children.input.getValue(),
-      instituto: this.children.folhas_rosto.instituto.children.input.getValue(),
-      departamento: this.children.folhas_rosto.departamento.children.input.getValue(),
-      curso: this.children.folhas_rosto.curso.children.input.getValue(),
-      local: this.children.folhas_rosto.local.children.input.getValue(),
-      data_defesa: this.children.folhas_rosto.data_defesa.children.input.getValue(),
-      volume: this.children.folhas_rosto.volume.children.input.getValue(),
-      orientador: this.children.folhas_rosto.orientador.children.input.getValue(),
-      tipo_trabalho: this.children.folhas_rosto.tipo_trabalho.children.input.getValue(),
-      pre_ambulo: this.children.folhas_rosto.pre_ambulo.children.input.getValue(),
-      nome_autor: this.children.autores.nome_autor.children.input.getValue(),
-      email_autor: this.children.autores.email_autor.children.input.getValue(),
-    }
+  getParagraphsData() {
+    return Array.from(this.children.paragraphs).map((p) => ({
+      text: p.children.text.getValue(),
+      type: p.children.type.getValue(),
+    }))
+  }
+
+  updateForm() {
+    this.children.form.clear()
+    this.children.paragraphs.map((p, ix) => this.children.form.append(p.setIndex(ix)))
   }
 }
