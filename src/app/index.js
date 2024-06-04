@@ -18,8 +18,10 @@ app.post('/save', ({ body }, res) => {
   try {
     let document = documents.findById(id)
     if (!document) document = documents.new()
-    document.writeMany(data)
-    res.json(new Response({ id: document.id, data }))
+    id = document.id
+    document.writeMany({ id, data: data.toString() })
+    const resp = new Response({ id, data })
+    res.json(resp)
   } catch (e) {
     res.json(new ErrorResponse(e))
   }
