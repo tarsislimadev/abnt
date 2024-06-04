@@ -10,6 +10,8 @@ To students make your jobs easily in ABNT PDFs
 
 ## how to use
 
+Open in [localhost:8080](http://localhost:8080/)
+
 ```
 docker run --rm -it -p 8080:80 -v $(pwd)/data:/data tmvdl/projects:abnt
 ```
