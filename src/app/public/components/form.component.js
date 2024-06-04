@@ -1,6 +1,5 @@
 import { HTML } from '@brtmvdl/frontend'
 import { ParagraphGroupComponent } from './paragraph.group.component.js'
-import { ParagraphGroupModel } from '../models/paragraph.group.model.js'
 import { ButtonComponent } from './button.component.js'
 import * as API from '../utils/api.js'
 
@@ -104,10 +103,7 @@ export class FormComponent extends HTML {
   }
 
   getParagraphsData() {
-    return Array.from(this.children.paragraphs).map((p) => ({
-      text: p.children.text.getValue(),
-      type: p.children.type.getValue(),
-    }))
+    return Array.from(this.children.paragraphs).map((p) => `${p.children.type.getValue()}: ${p.children.text.getValue()}`).join('\r\n')
   }
 
   updateForm() {
