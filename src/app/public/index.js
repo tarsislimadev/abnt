@@ -1,7 +1,8 @@
 import { HTML, nFlex } from '@brtmvdl/frontend'
 import { FormComponent } from './components/form.component.js'
 import { PDFComponent } from './components/pdf.component.js'
-import { StateModel } from './models/state.model.js'
+import * as API from '../utils/api.js'
+import { location } from './utils/window.js'
 
 export class Page extends HTML {
   children = {
@@ -9,20 +10,13 @@ export class Page extends HTML {
     pdf: new PDFComponent(),
   }
 
-  state = new StateModel({
-    id: this.getId(),
-    data: {},
-  })
-
   getId() {
-    const search = new URLSearchParams(window.location.search)
-    return search.get('id')
+    return location.get('id', null)
   }
 
   onCreate() {
     super.onCreate()
     this.append(this.getFlex())
-    this.saveDocument()
   }
 
   getFlex() {
@@ -34,7 +28,7 @@ export class Page extends HTML {
 
   getForm() {
     this.children.form.setContainerStyle('width', '40%')
-    this.children.form.on('save', ({ value }) => this.saveDocument(value))
+    this.children.form.on('save', () => this.saveDocument())
     return this.children.form
   }
 
@@ -42,4 +36,16 @@ export class Page extends HTML {
     this.children.pdf.setContainerStyle('width', '40%')
     return this.children.pdf
   }
+
+  saveDocument() {
+    API.saveDocument(this.getParagraphsData(), this.getId())
+      .then(() => this.dispatchEvent('saved'))
+      .catch((err) => console.error(err))
+  }
+
+  getParagraphsData() {
+    return Array.from(this.children.form.children.paragraphs)
+      .map((p) => `${p.children.type.getValue()}: ${p.children.text.getValue()}`).join('\r\n')
+  }
+
 }

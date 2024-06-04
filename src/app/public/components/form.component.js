@@ -1,12 +1,9 @@
 import { HTML } from '@brtmvdl/frontend'
 import { ParagraphGroupComponent } from './paragraph.group.component.js'
 import { ButtonComponent } from './button.component.js'
-import * as API from '../utils/api.js'
 
 export class FormComponent extends HTML {
-  state = {
-    id: 0,
-  }
+  state = { id: 0 }
 
   children = {
     form: new HTML(),
@@ -29,15 +26,10 @@ export class FormComponent extends HTML {
   }
 
   setEvents() {
-    this.on('update', (ev) => this.onUpdate(ev))
     this.on('add', ({ value: ix }) => this.onAdd(ix))
     this.on('remove', ({ value: ix }) => this.onRemove(ix))
     this.on('moveup', ({ value: ix }) => this.onMoveUp(ix))
     this.on('movedown', ({ value: ix }) => this.onMoveDown(ix))
-  }
-
-  onUpdate({ value } = {}) {
-    console.log('on update', { value })
   }
 
   onAdd(index) {
@@ -93,21 +85,13 @@ export class FormComponent extends HTML {
   }
 
   onSaveButtonClick() {
-    this.saveDocument()
-  }
-
-  saveDocument() {
-    API.saveDocument(this.getParagraphsData(), this.state.id)
-      .then(() => this.dispatchEvent('saved'))
-      .catch((err) => console.error(err))
-  }
-
-  getParagraphsData() {
-    return Array.from(this.children.paragraphs).map((p) => `${p.children.type.getValue()}: ${p.children.text.getValue()}`).join('\r\n')
+    this.updateForm()
   }
 
   updateForm() {
     this.children.form.clear()
     this.children.paragraphs.map((p, ix) => this.children.form.append(p.setIndex(ix)))
+    this.dispatchEvent('save')
   }
+
 }
