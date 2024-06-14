@@ -16,6 +16,10 @@ Open in [localhost:8080](http://localhost:8080/)
 docker run --rm -it -p 8080:80 -v $(pwd)/data:/data tmvdl/projects:abnt
 ```
 
+## author
+
+[@brtmvdl](https://www.linkedin.com/in/brtmvdl/)
+
 ## license
 
 [MIT](./LICENSE.md)
